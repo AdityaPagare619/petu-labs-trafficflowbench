@@ -11,7 +11,7 @@ GitHub rejects files over 100 MB in git, and each submission is ~404 MB uncompre
 | Public score | **0.85330** (20 Oct 2026) |
 | Rows | 6,980,503 (6,735,795 state / 174,000 queue / 70,708 ODME) |
 | md5 (uncompressed) | `e6db2a22a5e676955ab225358c0e378c` |
-| md5 (gzipped asset) | see `submission_w57_d1d2_v1.csv.gz.md5` in the release |
+| md5 (gzipped asset) | `03d1a6647819f0f63aab794da879f3c6` |
 | Composition | 0.84994 parent + exactly two changes (W57 D1/D2 split-fidelity fixes), certified by audit W58-L1 |
 
 ## 2 — Floor parent (second highest)
@@ -23,7 +23,7 @@ GitHub rejects files over 100 MB in git, and each submission is ~404 MB uncompre
 | Public score | 0.84994 (19 Oct 2026) |
 | Rows | 6,980,503 |
 | md5 (uncompressed) | `f596f2089403c552f38fd6bd0f9808a8` |
-| md5 (gzipped asset) | see `submission_w54_onset_v1.csv.gz.md5` in the release |
+| md5 (gzipped asset) | `913cbcef73d869ba1b5002bcc46b9033` |
 | Composition | W54-C T4 own-counts refit + W54-A onset leg on the W28 production base |
 
 ## Verification
