@@ -1,0 +1,6 @@
+# Release assets (the two ~140 MB gzipped submissions) live in the GitHub
+# release, not in git. Everything else in this tree is tracked.
+.release/
+*.csv.gz
+__pycache__/
+*.pyc

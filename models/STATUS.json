@@ -1,0 +1,67 @@
+{
+ "abs_full_frozen": {
+  "md5": "b175f0e11986b3a6b01d4fc1f757d27d",
+  "path": "data/abs_full_pred_frozen.parquet",
+  "rows": 3994554
+ },
+ "audit_eval_days": {
+  "audit_log": "audit_eval_days_run2.log",
+  "status": "passed",
+  "train_days_excluded": 44
+ },
+ "checklist": {
+  "dataset_pushed": false,
+  "eval_done": false,
+  "kernels_pushed": false,
+  "training_done": false
+ },
+ "diagram": "diagram-w28-lanea-dataflow.html present 2026-10-11 02:43",
+ "feb_2031_guard": "intact - train months 2030-06..2031-01, no Feb-2031 access",
+ "lane": "W28 Lane A - T1 scale extension",
+ "models": {
+  "kernels_on_kaggle": [
+   "kernel_train_speed_kmh.py",
+   "kernel_train_flow_vph.py"
+  ],
+  "seeds": [
+   42,
+   43
+  ],
+  "targets": [
+   "speed_kmh",
+   "flow_vph"
+  ]
+ },
+ "protocol": {
+  "bootstrap_B": 1000,
+  "bootstrap_seed": 20310301,
+  "eval_plan_md5": "835260f6ac8b1a76bfb9efde527099e5",
+  "eval_rows": "data/eval_rows_2030-{10,11,12}_and_2031-01.parquet (3994554 rows)",
+  "k1": "kill if delta<=0 or CI crosses 0",
+  "k2": "deflated 2.67sigma",
+  "k3": "no cell <=-0.01",
+  "k4": "same-sign on both seeds",
+  "k5": "bundle candidate if delta>=0.005",
+  "primary": "DeltaS_state vs abs_full, official 0.54*S_speed+0.46*S_flow, blinded Oct-Jan"
+ },
+ "step": "eval_done_adjudicating",
+ "train_shards": {
+  "md5": "all 10 PASS per data/shard_md5.txt",
+  "rows": 3725267
+ },
+ "updated": "2026-10-11T11:00:00+05:30",
+ "verdict": null,
+ "kernels_pushed": true,
+ "kernels": {
+  "speed": "adityapaagare/tfb-w28-t1-scale-speed-resume-20261011030413-cpu",
+  "flow": "adityapaagare/tfb-w28-t1-scale-flow-20261011024223-cpu"
+ },
+ "training_done": true,
+ "models_md5": {
+  "w28_scale_flow_vph_s42": "e29ec2de18b996fb0a2ed3e1a14e7d29",
+  "w28_scale_flow_vph_s43": "8702cd882e21df098f146b61050d0cd9",
+  "w28_scale_speed_kmh_s42": "db730c635a036d57efee24eacebc8605",
+  "w28_scale_speed_kmh_s43": "6a8a61414e1ce8308a213c6427dc3381"
+ },
+ "eval_done": true
+}

@@ -1,0 +1,49 @@
+# TFB award package — reproducible inference environment
+# PETU LABS · TrafficFlowBench · 2026-10-12
+# Builds the pinned environment (ops/award_pkg/requirements.txt) and runs
+# the one-panel T1-leg reproduction drill for the 0.81787 candidate.
+#
+# STATUS: written 2026-10-12, NOT test-built (no docker daemon on the build
+# machine). The requirements pins are verified against the live TFB venv
+# (ops/award_pkg/HARDENING_REPORT.md §1); the repro command mirrors the
+# drill in ops/REPRO_DRILL_W28_SCALE.md §3. Before shipping, run:
+#   docker build -t tfb-award .
+#   docker run --rm -v /path/to/tfb:/tfb tfb-award
+# and confirm the md5 lines below match the lane's intermediates.
+
+FROM python:3.12-slim
+
+# System deps: libgomp (CatBoost/LightGBM OpenMP), git (not needed at runtime,
+# kept out). Keep the image CPU-only.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /award
+
+# Pinned Python environment (verified against the TFB venv 2026-10-12).
+COPY ops/award_pkg/requirements.txt /award/requirements.txt
+RUN pip install --no-cache-dir -r /award/requirements.txt
+
+# The award bundle is mounted at /tfb at run time (organizers' data +
+# our code). Nothing is baked in, so the image stays small and the
+# artifact md5s stay auditable.
+VOLUME ["/tfb"]
+ENV TFB_ROOT=/tfb
+
+# One-panel repro: D7_I10_W, both splits. infer_w28.py resolves the workspace
+# via TFB_ROOT (see HARDENING_REPORT.md §1: --root > TFB_ROOT > legacy
+# default) and writes to $TFB_ROOT/builds/w28_scale_bundle_gates/cand_states/.
+# IMPORTANT: infer_w28.py skips panels whose cand_state CSV already exists —
+# run on a fresh checkout (or clear cand_states/) for a true clean-room rerun.
+CMD ["sh", "-c", "\
+  set -e && \
+  python /tfb/builds/w28_scale_bundle_gates/infer_w28.py \
+      --mode valpriv --only-panel D7_I10_W --root /tfb && \
+  echo '--- md5 of repro outputs (compare vs lane intermediates) ---' && \
+  md5sum /tfb/builds/w28_scale_bundle_gates/cand_states/cand_state_validation_D7_I10_W.csv \
+           /tfb/builds/w28_scale_bundle_gates/cand_states/cand_state_private_D7_I10_W.csv && \
+  echo 'expected:' && \
+  echo '8798526e79348bee5d326372a58a7c7a  cand_state_validation_D7_I10_W.csv' && \
+  echo '705d4ffbeff95f39a108558bd7f72720  cand_state_private_D7_I10_W.csv' \
+"]
